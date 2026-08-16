@@ -12,7 +12,7 @@ def detect_brute_force(df, fail=10, window_mins=5):
         group = group.sort_values("timestamp")      # store attempts chronologically
         timestamps = group["timestamp"].tolist()    # store attempt timestamps in a list
         for i in range(len(timestamps)):
-            window_end = timestamps[i] + pd.Timedelta(mins=window_mins)
+            window_end = timestamps[i] + pd.Timedelta(minutes=window_mins)
             count = sum(1 for t in timestamps[i:] if t <= window_end)   # count of how many of the IP's failures fall between timestamps and the window_end
             if count >= fail:
                 alerts.append({
@@ -64,7 +64,7 @@ def detect_far_apart(df, max_speed_kmh=900):
     for user, group in success.groupby("user"):     #look at each users login history
         group = group.sort_values("timestamp").reset_index(drop=True)
         for i in range(1,len(group)):               # compare each login to each previous one
-            prev, curr = group.location[i - 1], group.location[i]
+            prev, curr = group.loc[i - 1], group.loc[i]
             if prev["ip"] == curr["ip"]:
                 continue
             location1, location2 = geolocate(prev["ip"]), geolocate(curr["ip"])     #look up the location for both IP addresses
@@ -93,6 +93,6 @@ def detect_off_hours(df, start_hr=7, end_hr=22):
     success["hour"] = success["timestamp"].dt.hour       # extract the hour from the timestamp (0-23)
 
     # off hours
-    off = success[(success["hour"] < start_hour) | (success["hour"] > end_hour)]
+    off = success[(success["hour"] < start_hr) | (success["hour"] > end_hr)]
     return off[["timestamp", "user", "ip", "hour"]].rename(columns = {"hour": "login_hour"})    
 
