@@ -1,11 +1,9 @@
 Login Log Analyzer
 
-This a tool that parses SSH authentication logs and flags suspicious login activity. It has three injected attacks (brute force, far apart IP addresses, and off-hours login)
-
-I built this to practice log analysis and detection skills similar to the way an SOC analyst tool would.
+DESCRIPTION...
+This a tool that parses SSH authentication logs and flags suspicious login activity. It has three injected attacks (brute force, far apart IP addresses, and off-hours login). I built this to practice log analysis and detection skills similar to the way an SOC analyst tool would.
 
 HOW IT WORKS...
-
 	generate_logs.py -- this is a synthetic SSH auth log generator with injected attacks.
 	parser.py -- this is a regex based log parser with a structured DataFrame
 	detector.py -- this contains functions (kind of like a playbook) for detecting the injected attacks
